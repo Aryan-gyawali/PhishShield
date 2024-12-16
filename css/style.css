@@ -1,0 +1,195 @@
+*{
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.header-item {
+
+    display: flex;
+    gap: 32px;
+    padding-top: 43px;
+    padding-bottom: 38px;
+    
+}
+
+.img-fluid {
+
+    max-width: 150px;
+    
+}
+
+.container{
+
+    max-width: 1440px;
+}
+
+section {
+
+    padding: 100px 0px;
+}
+
+
+.navigation-bar{
+
+    display: flex;
+    gap: 60px;
+
+    
+}
+
+.sign-up {
+
+    padding: 16px 40px;
+    border-radius: 50px;
+    width: 140px;
+
+}
+
+.log-in {
+    padding: 16px 45px;
+    border-radius: 50px;
+    width: 140px;
+    
+}
+
+.btn-cta{
+
+    padding: 43px 0px;
+    display: flex;
+    gap: 40px;
+}
+
+h1 {
+
+    
+    text-align: center;
+}
+
+
+/* Form-containt*/
+
+.form-container{
+
+    max-width: 655px;
+}
+
+
+form{
+
+max-width: 650px;
+padding: 25px;
+
+}
+
+#loginForm, #resetForm{
+
+    max-width: 400px;
+    height: 550px;
+}
+
+.form-title {
+
+  text-align: center;
+  color: black;
+}
+
+.form-input{
+
+    padding: 15px 18px;
+    border-radius: 10px;
+    width: 100%;
+
+}
+
+.success .error {
+    display: none;
+}
+
+.email, .password, .password1{
+
+    margin-top: 9px;
+}
+
+.checkbox-group{
+
+    padding-top: 9px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+padding: 16px 40px;
+border-radius: 8px;
+width: 100%;
+
+}
+
+.text-form {
+
+    text-align: center;
+    padding-top: 10px;
+}
+
+.btn-cta3{
+
+    margin-top: 25px;
+}
+
+.reset-email{
+
+    margin-top: 60px;
+}
+
+
+
+
+/* Style for the container holding the forms */
+form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Initially hidden */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+    padding: 20px;
+    width: 90%;
+    max-width: 650px; /* Limit form width */
+    z-index: 1000; /* Ensure it is above other elements */
+}
+
+/* Add transition for a smooth appearance */
+form.show {
+    display: block; /* Display the form */
+    animation: fadeIn 0.3s ease-in-out; /* Optional fade-in effect */
+}
+
+/* Optional: Background overlay when a form is displayed */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    z-index: 999; /* Below the form */
+    display: none; /* Initially hidden */
+}
+
+.overlay.show {
+    display: block; /* Show the overlay */
+}
+
+/* Fade-in keyframes for animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
