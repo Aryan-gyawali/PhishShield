@@ -1,12 +1,11 @@
-// DOMContentLoaded ensures the script runs after the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
 
     const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     const resetForm = document.getElementById('resetForm');
-    const overlay = document.createElement('div'); // Create overlay dynamically
+    const overlay = document.createElement('div');
     overlay.className = 'overlay';
-    document.body.appendChild(overlay); // Append overlay to the body
+    document.body.appendChild(overlay);
 
     // Get elements for signup form
     const username = document.getElementById('username');
@@ -38,26 +37,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const showForm = (form) => {
         hideAllForms(); // Ensure no other form is visible
-        
         form.style.display = 'block'; // Show the requested form
         overlay.style.display = 'block'; // Show overlay
+        resetErrors(form); // Reset errors when switching forms
     };
 
+    // Function to reset errors when reopening a form
+    const resetErrors = (form) => {
+        const errorDivs = form.querySelectorAll('.error-message');
+        errorDivs.forEach(errorDiv => {
+            errorDiv.innerText = ''; // Clear error message
+        });
 
-// Function to reset errors when reopening a form
-const resetErrors = (form) => {
-    const errorDivs = form.querySelectorAll('.error');
-    errorDivs.forEach(errorDiv => {
-        errorDiv.innerText = ''; // Clear error message
-    });
-
-    const inputs = form.querySelectorAll('.form-input');
-    inputs.forEach(input => {
-        input.classList.remove('error-input'); // Remove error class
-        input.style.borderColor = ''; // Reset border color
-    });
-};
-
+        const formGroup = form.querySelectorAll('.error');
+        formGroup.forEach(eachFormGroup => {
+            eachFormGroup.classList.remove('error'); // Remove error class
+            eachFormGroup.querySelector("input").style.borderColor = ""; // Reset border color
+        });
+    };
 
     // Event listeners for page links
     forgotPasswordLinks.forEach((link) => {
@@ -96,6 +93,9 @@ const resetErrors = (form) => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const linkText = e.target.textContent.trim();
+            document.querySelectorAll("form").forEach(function(form){
+                resetErrors(form); // Reset errors for all forms
+            });
             if (linkText === 'Sign up') {
                 showForm(signupForm);
             } else if (linkText === 'Login') {
@@ -157,7 +157,7 @@ const resetErrors = (form) => {
     // Clear error messages
     const clearError = (element) => {
         const parent = element.parentElement;
-        const errorDisplay = parent.querySelector('.error');
+        const errorDisplay = parent.querySelector('.error-message');
         errorDisplay.innerText = ''; // Clear error message
         parent.classList.remove('error');
         element.style.borderColor = ''; // Reset border color
@@ -166,7 +166,7 @@ const resetErrors = (form) => {
     // Set error and success styles
     const setError = (element, message) => {
         const parent = element.parentElement;
-        const errorDisplay = parent.querySelector('.error');
+        const errorDisplay = parent.querySelector('.error-message');
         errorDisplay.innerText = message;
         parent.classList.add('error');
         parent.classList.remove('success');
@@ -175,7 +175,7 @@ const resetErrors = (form) => {
 
     const setSuccess = (element) => {
         const parent = element.parentElement;
-        const errorDisplay = parent.querySelector('.error');
+        const errorDisplay = parent.querySelector('.error-message');
         errorDisplay.innerText = '';
         parent.classList.add('success');
         parent.classList.remove('error');
@@ -199,15 +199,17 @@ const resetErrors = (form) => {
                     setSuccess(input);
                 }
                 break;
-            case 'phone':
-                if (value === '') {
-                    setError(input, 'Phone is required');
-                } else if (value.length < 10) {
-                    setError(input, 'Phone must be a valid 10-digit number');
-                } else {
-                    setSuccess(input);
-                }
-                break;
+                case 'phone':
+                    if (value === '') {
+                        setError(input, 'Phone is required');
+                    } else if (value.length < 10) {
+                        setError(input, 'Phone must be a valid 10-digit number');
+                    } else if (value.length > 10) {  // New check for phone number greater than 10 digits
+                        setError(input, 'Phone number must not exceed 10 digits');
+                    } else {
+                        setSuccess(input);
+                    }
+                    break;
             case 'email':
                 if (value === '') {
                     setError(input, 'Email is required');
@@ -277,8 +279,6 @@ const resetErrors = (form) => {
         return isFormValid;
     };
 
-    
-
     // Validate login form inputs
     const validateInputsLogin = () => {
         const emailLoginValue = emailLogin.value.trim();
@@ -321,5 +321,6 @@ const resetErrors = (form) => {
         }
 
         return isFormValid;
-    }
+    };
+
 });
