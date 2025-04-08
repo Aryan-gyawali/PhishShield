@@ -132,21 +132,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Form submit event listeners
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent default form submission
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         if (validateInputsSignup()) {
-            alert('Form submitted successfully!');
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username.value.trim(),
+                        email: emailSignup.value.trim(),
+                        phone: phone.value.trim(),
+                        password: passwordSignup.value.trim()
+                    })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    alert('Signup successful!');
+                    hideAllForms();
+                    // Optional: Redirect or update UI
+                } else {
+                    alert(data.error || 'Signup failed');
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred during signup');
+            }
         }
     });
-
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent default form submission
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         if (validateInputsLogin()) {
-            alert('Login successful!');
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: emailLogin.value.trim(),
+                        password: passwordLogin.value.trim()
+                    })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    alert('Login successful!');
+                    hideAllForms();
+                    // Optional: Redirect or update UI
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login');
+            }
         }
     });
-
     resetForm.addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent default form submission
         if (validateInputsReset()) {
@@ -324,3 +374,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 });
+
+
+
+
+

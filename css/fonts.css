@@ -1,9 +1,9 @@
-
 /* section*/
 
 .bg-alt {
 
-    background-color: rgba(255, 249, 249, 0.6);;
+    background-color: rgba(255, 249, 249, 0.6);
+    ;
 }
 
 
@@ -21,18 +21,25 @@ li {
     text-decoration: none;
     list-style: none;
 
-    
+
 }
 
-.sign-up, .log-in {
+.sign-up{
 
 
-background-color: black;
-color: white;
-border: black;
-border-radius: 50px;
-cursor: pointer;
+    background: linear-gradient(90deg, #E948C5 0%, #CD407B 53%, #75042D 100%);
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
 
+}
+
+.log-in {
+
+    background: linear-gradient(90deg, #628EFF 0%, #8740CD 53%, #580475 100%);
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
 }
 
 
@@ -65,8 +72,8 @@ p {
 
 form {
 
-    
-    background-color:  RGB(30, 30, 30);
+
+    background-color: RGB(30, 30, 30);
     border-radius: 20px;
     height: 650px;
 
@@ -74,7 +81,7 @@ form {
 
 input {
 
-    background-color:  RGB(30, 30, 30);
+    background-color: RGB(30, 30, 30);
     color: white;
 }
 
@@ -84,7 +91,7 @@ input {
     color: white;
 }
 
-.form-input{
+.form-input {
 
     color: white;
     border: 1px solid white;
@@ -96,14 +103,14 @@ label {
 }
 
 
- .page-links{
+.page-links {
 
     color: white;
     font-size: 16px;
     margin-left: 10px;
 }
 
-button{
+button {
 
     border: black;
     font-size: 20px;
@@ -112,27 +119,27 @@ button{
 
 
 
-.btn-cta1{
-   
+.btn-cta1 {
+
     background: linear-gradient(90deg, #E948C5 0%, #CD407B 53%, #75042D 100%);
 
 }
 
-.btn-cta2{
+.btn-cta2 {
 
     background: linear-gradient(90deg, #628EFF 0%, #8740CD 53%, #580475 100%);
 }
 
-.btn-cta3{
+.btn-cta3 {
 
-    
+
     background: linear-gradient(90deg, #2E4CEE 0%, #221EBF 53%, #040F75 100%);
 }
 
 
 .error input {
     border: 2px solid red;
-    
+
 }
 
 
@@ -145,4 +152,3 @@ button{
 
     color: red;
 }
-
