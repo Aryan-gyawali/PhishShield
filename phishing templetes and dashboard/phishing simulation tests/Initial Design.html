@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Awareness Test</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <!-- Floating Report Button -->
+    <button id="reportBtn" class="fixed bottom-8 right-8 z-50 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full flex items-center shadow-lg transform transition-all duration-200 ease-in-out hover:scale-105">
+        <i class="fas fa-flag mr-2"></i> Report Suspicious Page
+    </button>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+
+        <!-- Card -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-8 text-center">
+                <h1 class="text-3xl font-semibold text-white mb-2">Phishing Awareness Test</h1>
+                <p class="text-blue-100">Learn to identify real vs. fake login pages</p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 space-y-8">
+                <div class="grid md:grid-cols-3 gap-8">
+
+                    <!-- Instructions Section -->
+                    <div class="md:col-span-2">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">How This Works:</h2>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li>Click "Open Test Page" below</li>
+                            <li>A login page will open (could be real or fake)</li>
+                            <li>Examine it carefully</li>
+                            <li>Use the floating red button to report if you think it's phishing</li>
+                            <li>You'll get immediate feedback</li>
+                        </ol>
+
+                        <div class="mt-8">
+                            <button id="openTestBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg text-lg font-semibold transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Open Test Page
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Safety Tips Section -->
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-blue-800 mb-3 flex items-center">
+                            <i class="fas fa-lightbulb mr-2 text-yellow-500"></i> Safety Tips
+                        </h3>
+                        <ul class="space-y-2 text-sm text-blue-900">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i> Check the URL carefully
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i> Look for HTTPS and padlock icon
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i> Watch for poor grammar/spelling
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i> Be wary of urgent requests
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

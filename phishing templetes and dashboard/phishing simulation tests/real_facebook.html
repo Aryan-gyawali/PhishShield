@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook - Real Login Test</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background: #f0f2f5; }
+        .fb-header { background-color: #1877f2; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <!-- Real Facebook Header -->
+        <header class="fb-header py-4 px-6 text-white">
+            <h1 class="text-3xl font-bold">facebook</h1>
+        </header>
+
+        <!-- Real Login Form -->
+        <main class="flex-grow flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <h2 class="text-2xl font-bold text-center mb-6">Log Into Facebook</h2>
+                <form id="phishingForm">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <div class="mb-4">
+                        <input type="text" placeholder="Email or phone number" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <button id="loginBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
+                        Log In
+                    </button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="#" class="text-blue-600 hover:underline">Forgotten password?</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Report Button (Initially hidden) -->
+    <button id="reportBtn" class="fixed bottom-8 right-8 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full shadow-lg hidden">
+        <i class="fas fa-flag mr-2"></i> Report Phishing
+    </button>
+
+    <script>
+        // Show the report button after 3 seconds
+        setTimeout(() => {
+            document.getElementById('reportBtn').classList.remove('hidden');
+        }, 3000);
+
+        // Simulation flags
+        const isRealTest = true;  // This is a real login test (not phishing)
+
+        // Handle report button click (wrong action)
+        document.getElementById('reportBtn').addEventListener('click', async () => {
+            const isCorrect = !isRealTest; // Incorrect to report real page
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",
+                    is_correct: isCorrect,
+                    is_real: isRealTest
+                })
+            });
+
+            const result = await response.json();
+            alert(`You earned ${result.points || 0} points!`);
+            window.location.href = '/dashboard';
+        });
+
+        // Handle login (correct action)
+        document.getElementById('loginBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const isCorrect = true;  // Logging in is correct on a real page
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",
+                    is_correct: isCorrect,
+                    is_real: isRealTest
+                })
+            });
+
+            const result = await response.json();
+            alert(`You earned ${result.points || 0} points!`);
+            window.location.href = '/dashboard';
+        });
+    </script>
+</body>
+</html>

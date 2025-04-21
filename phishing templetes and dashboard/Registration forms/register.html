@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - PhishShield</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md space-y-6">
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-blue-600">
+                <i class="fas fa-shield-alt mr-2"></i> PhishShield
+            </h1>
+            <p class="text-gray-600 mt-2 text-lg">Create your account to begin your phishing detection journey.</p>
+        </div>
+
+        <!-- Error Message (if any) -->
+        {% if error %}
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-lg" role="alert">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Registration Form -->
+        <form id="registerForm" method="POST" action="/register/" class="space-y-6">
+            <!-- Username -->
+            <div class="relative">
+                <label for="username" class="block text-gray-700 text-sm font-medium mb-2">
+                    <i class="fas fa-user mr-2 text-indigo-500"></i> Username
+                </label>
+                <input id="username" name="username" type="text" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300">
+            </div>
+
+            <!-- Password -->
+            <div class="relative">
+                <label for="password" class="block text-gray-700 text-sm font-medium mb-2">
+                    <i class="fas fa-lock mr-2 text-indigo-500"></i> Password
+                </label>
+                <input id="password" name="password" type="password" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300">
+                <p id="passwordStrength" class="text-xs text-gray-500 mt-1">Password should be at least 8 characters long.</p>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="relative">
+                <label for="confirmPassword" class="block text-gray-700 text-sm font-medium mb-2">
+                    <i class="fas fa-lock mr-2 text-indigo-500"></i> Confirm Password
+                </label>
+                <input id="confirmPassword" name="confirmPassword" type="password" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-300">
+                <p id="passwordMatch" class="text-xs text-red-500 mt-1 hidden">Passwords do not match.</p>
+            </div>
+
+            <!-- Submit Button -->
+            <button id="submitBtn" type="submit" disabled
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                <i class="fas fa-user-plus mr-2"></i> Register
+            </button>
+        </form>
+
+        <!-- Already have an account link -->
+        <p class="text-center text-sm text-gray-600 mt-4">
+            Already have an account? <a href="/login/" class="text-blue-600 hover:underline font-semibold">Login</a>
+        </p>
+    </div>
+
+    <footer class="absolute bottom-0 w-full bg-gray-50 py-4 text-center text-sm text-gray-600">
+        <p>&copy; 2025 PhishShield. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const passwordField = document.getElementById('password');
+        const confirmPasswordField = document.getElementById('confirmPassword');
+        const passwordStrengthText = document.getElementById('passwordStrength');
+        const passwordMatchText = document.getElementById('passwordMatch');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('registerForm');
+
+        // Password strength check (basic example)
+        passwordField.addEventListener('input', () => {
+            const password = passwordField.value;
+            if (password.length < 8) {
+                passwordStrengthText.textContent = 'Password should be at least 8 characters long.';
+                passwordStrengthText.classList.remove('text-green-500');
+                passwordStrengthText.classList.add('text-red-500');
+            } else {
+                passwordStrengthText.textContent = 'Password is strong.';
+                passwordStrengthText.classList.remove('text-red-500');
+                passwordStrengthText.classList.add('text-green-500');
+            }
+            validatePasswords();
+        });
+
+        // Confirm password validation
+        confirmPasswordField.addEventListener('input', validatePasswords);
+
+        function validatePasswords() {
+            const password = passwordField.value;
+            const confirmPassword = confirmPasswordField.value;
+            if (password !== confirmPassword) {
+                passwordMatchText.classList.remove('hidden');
+                submitBtn.disabled = true;
+            } else {
+                passwordMatchText.classList.add('hidden');
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

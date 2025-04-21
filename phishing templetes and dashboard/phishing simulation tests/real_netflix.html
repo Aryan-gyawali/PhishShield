@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Phishing Test</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #141414; }
+        .netflix-header { background-color: #e50914; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <!-- Real Netflix Header -->
+        <header class="netflix-header py-3 px-6 text-white">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold tracking-wide">Netflix</div>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 bg-white text-red-600 rounded">Sign In</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Real Login Form -->
+        <main class="flex-grow flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+                <form id="phishingForm">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <div class="mb-4">
+                        <input type="email" placeholder="Email or phone number" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
+                    <button id="signInSubmit" type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg">
+                        Sign In
+                    </button>
+                </form>
+                <div class="text-center mt-4">
+                    <a href="#" class="text-blue-600 hover:underline">Need help?</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Report Button (Initially hidden) -->
+    <button id="reportBtn" class="fixed bottom-8 right-8 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hidden">
+        <i class="fas fa-flag mr-2"></i> Report Phishing
+    </button>
+
+    <script>
+        // Show report button after 3 seconds
+        setTimeout(() => {
+            document.getElementById('reportBtn').classList.remove('hidden');
+        }, 3000);
+
+        // Define the real test flag
+        const isRealTest = true;  // Real Netflix test
+
+        // Handle report (this is incorrect in real test)
+        document.getElementById('reportBtn').addEventListener('click', async () => {
+            const isCorrect = !isRealTest; // Reporting a real page is incorrect
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",
+                    is_correct: isCorrect,
+                    is_real: isRealTest
+                })
+            });
+
+            const result = await response.json();
+            const points = result.points || 0;
+            alert(`You earned ${points} points!`);
+            window.location.href = '/dashboard';
+        });
+
+        // Handle login (correct action in real test)
+        document.getElementById('signInSubmit').addEventListener('click', async (event) => {
+            event.preventDefault(); // Prevent default form action
+
+            const isCorrect = true; // Logging into a real page is correct
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",
+                    is_correct: isCorrect,
+                    is_real: isRealTest
+                })
+            });
+
+            const result = await response.json();
+            const points = result.points || 0;
+            alert(`You earned ${points} points!`);
+            window.location.href = '/dashboard';
+        });
+    </script>
+</body>
+</html>

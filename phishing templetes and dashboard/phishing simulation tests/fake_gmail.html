@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail - Phishing Test</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background: #f5f5f5; }
+        .gmail-header { background: #d44638; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <!-- Fake Gmail Header -->
+        <header class="gmail-header py-3 px-6 text-white">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold">Fake Gmail</div>
+                <div class="flex space-x-4">
+                    <button id="signInBtn" class="px-4 py-2 bg-white text-red-600 rounded">Sign In</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Fake Login Form -->
+        <main class="flex-grow flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 class="text-2xl font-bold text-center mb-6">Sign in</h2>
+                <form id="phishingForm">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <div class="mb-4">
+                        <input type="email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <div class="mb-6">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg">
+                    </div>
+                    <button id="nextBtn" type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">
+                        Next
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Report Button (Hidden until test starts) -->
+    <button id="reportBtn" class="fixed bottom-8 right-8 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full shadow-lg hidden">
+        <i class="fas fa-flag mr-2"></i> Report Phishing
+    </button>
+
+    <script>
+        // Show report button after 3 seconds
+        document.getElementById('reportBtn').classList.remove('hidden');
+
+        // Define the is_real flag for frontend
+        const isRealTest = false;  // Fake test, is_real is false
+
+        // Handle report (correct action)
+        document.getElementById('reportBtn').addEventListener('click', async () => {
+            const isCorrect = !isRealTest;  // Reporting phishing is correct for fake test
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",  // Django template variable
+                    is_correct: isCorrect,
+                    is_real: isRealTest  // Send the real/fake flag from frontend
+                })
+            });
+
+            const result = await response.json();
+
+            const points = result.points || 0;  // Default to 0 if points is undefined
+            alert(`You earned ${points} points!`);
+
+            // Redirect to the dashboard
+            window.location.href = '/dashboard';
+        });
+
+        // Handle "Next" button click (incorrect action)
+        document.getElementById('nextBtn').addEventListener('click', async (event) => {
+            event.preventDefault();  // Prevent the form from submitting normally
+
+            const isCorrect = false;  // Incorrect action (user clicked "Next" instead of reporting phishing)
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",  // Django template variable
+                    is_correct: isCorrect,
+                    is_real: isRealTest  // Send the real/fake flag from frontend
+                })
+            });
+
+            const result = await response.json();
+
+            const points = result.points || 0;  // Default to 0 if points is undefined
+            alert(`You lost ${Math.abs(points)} points!`);
+
+            // Redirect to the dashboard
+            window.location.href = '/dashboard';
+        });
+    </script>    
+    
+</body>
+</html>

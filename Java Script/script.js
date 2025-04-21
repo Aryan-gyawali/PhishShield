@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.className = 'overlay';
     document.body.appendChild(overlay);
 
-    // Get elements for signup form
+    // Get
     const username = document.getElementById('username');
     const phone = document.getElementById('phone');
     const emailSignup = document.getElementById('email');
