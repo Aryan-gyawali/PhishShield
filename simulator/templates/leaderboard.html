@@ -75,7 +75,7 @@
                     Your rank: 
                     <span class="font-bold">
                         {% for user in top_users %}
-                            {% if user.username == current_user.username %}
+                            {% if user.email == current_user.email %}
                                 #{{ forloop.counter }}
                             {% endif %}
                         {% endfor %}
@@ -106,7 +106,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             {% for user in top_users %}
-                            <tr class="{% if current_user and user.username == current_user.username %}highlight-row{% endif %} hover:bg-gray-50 transition-colors">
+                            <tr class="{% if current_user and user.email == current_user.email %}highlight-row{% endif %} hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         {% if forloop.counter == 1 %}
@@ -124,13 +124,13 @@
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
                                             <span class="text-indigo-600 font-medium">
-                                                {{ user.username|first|upper }}
+                                                {{ user.email|first|upper }}
                                             </span>
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ user.username }}
-                                                {% if current_user and user.username == current_user.username %}
+                                                {{ user.email }}
+                                                {% if current_user and user.email == current_user.email %}
                                                     <span class="ml-2 px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-xs">You</span>
                                                 {% endif %}
                                             </div>
@@ -165,7 +165,7 @@
                 <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-8 max-w-4xl mx-auto">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">
                         {% if current_user %}
-                            Keep going, {{ current_user.username }}!
+                            Keep going, {{ current_user.email }}!
                         {% else %}
                             Ready to climb the ranks?
                         {% endif %}

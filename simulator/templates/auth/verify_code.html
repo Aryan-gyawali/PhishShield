@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Code</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded shadow w-full max-w-md">
+        <h2 class="text-xl font-bold mb-4">Enter Verification Code</h2>
+        {% if error %}<p class="text-red-600 mb-4">{{ error }}</p>{% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <label>Code</label>
+            <input type="text" name="code" required class="w-full border px-3 py-2 rounded mb-4">
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded w-full">Verify</button>
+        </form>
+    </div>
+</body>
+</html>

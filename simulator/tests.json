@@ -1,0 +1,60 @@
+[
+  {
+    "file": "tests/AdvancePhishingNetflix.html",
+    "allowed_emails": [
+      "aryang5044@gmail.com"
+    ]
+  },
+  {
+    "file": "tests/AdvancePhishingFacebook.html",
+    "allowed_emails": []
+  },
+  {
+    "file": "tests/fake_gmail.html",
+    "allowed_emails": [
+      "aryang5044@gmail.com"
+    ]
+  },
+  {
+    "file": "tests/real_gmail.html",
+    "allowed_emails": []
+  },
+  {
+    "file": "tests/fake_facebook.html",
+    "allowed_emails": [
+      "user1@example.com"
+    ]
+  },
+  {
+    "file": "tests/real_facebook.html",
+    "allowed_emails": [
+      "john@phishing.com"
+    ]
+  },
+  {
+    "file": "tests/fake_netflix.html",
+    "allowed_emails": [
+      "user1@example.com",
+      "admin@phishing.com",
+      "sangeetkarki1@gmail.com"
+    ]
+  },
+  {
+    "file": "tests/real_netflix.html",
+    "allowed_emails": [
+      "user2@example.com"
+    ]
+  },
+  {
+    "file": "tests/fake_github.html",
+    "allowed_emails": [
+      "admin@phishing.com"
+    ]
+  },
+  {
+    "file": "tests/real_github.html",
+    "allowed_emails": [
+      "user2@example.com"
+    ]
+  }
+]

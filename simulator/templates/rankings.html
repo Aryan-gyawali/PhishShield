@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankings - PhishShield</title>
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+        .medal-gold {
+            color: #facc15;
+        }
+        .medal-silver {
+            color: #e5e7eb;
+        }
+        .medal-bronze {
+            color: #f59e0b;
+        }
+        .highlight-row {
+            background-color: #f0f9ff;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-indigo-600 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <i class="fas fa-shield-alt text-white text-3xl mr-2"></i>
+                    <span class="text-white text-2xl font-semibold">PhishShield</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="/admin" class="text-white hover:text-indigo-200 transition">Dashboard</a>
+                    <a href="/logout" class="text-white hover:text-indigo-200 transition">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <!-- Page Title -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                    <i class="fas fa-trophy text-yellow-400 mr-2"></i> Rankings
+                </h1>
+                <p class="text-gray-600">Climb the ranks by detecting phishing attempts!</p>
+            </div>
+
+            <!-- Rankings Table -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full table-auto">
+                        <thead class="bg-indigo-100">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-600">Rank</th>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-600">Player</th>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-600">Points</th>
+                                <th class="px-6 py-4 text-left text-sm font-medium text-gray-600">Website</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            {% for website_data in website_rankings %}
+                                <tr class="bg-indigo-50">
+                                    <td colspan="4" class="px-6 py-4 text-xl font-semibold text-indigo-600">{{ website_data.website | title }}</td>
+                                </tr>
+                                {% for user in website_data.users %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        {% if forloop.counter == 1 %}
+                                            <i class="fas fa-crown text-yellow-500 text-2xl"></i>
+                                        {% elif forloop.counter == 2 %}
+                                            <i class="fas fa-medal text-gray-300 text-2xl"></i>
+                                        {% elif forloop.counter == 3 %}
+                                            <i class="fas fa-medal text-orange-500 text-2xl"></i>
+                                        {% else %}
+                                            {{ forloop.counter }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="text-sm font-medium text-gray-900">{{ user.email }}</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">{{ user.points }}</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500">{{ website_data.website | title }}</div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-t mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+            <p class="text-gray-600 text-sm">&copy; 2025 PhishShield. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+{
+    "AdvancePhishingFacebook": [
+        {
+            "email": "john@phishing.com",
+            "points": 10
+        }
+    ],
+    "AdvancePhishingNetflix": [
+        {
+            "email": "john@phishing.com",
+            "points": 5
+        },
+        {
+            "email": "aryang5044@gmail.com",
+            "points": 10
+        }
+    ],
+    "fake_gmail": [
+        {
+            "email": "aryang5044@gmail.com",
+            "points": 10
+        }
+    ]
+}

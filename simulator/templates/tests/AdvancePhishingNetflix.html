@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        @font-face {
+            font-family: system;
+            font-style: normal;
+            font-weight: 300;
+            src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"),
+                local("Roboto-Light"), local("DroidSans"), local("Tahoma"),
+                local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light");
+        }
+
+        #title-bar {
+            height: 31px;
+            background-color: black;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+            cursor: default;
+        }
+
+        #logo {
+            padding-left: 5px;
+            vertical-align: middle;
+        }
+
+        #logo-description {
+            color: white;
+            font-size: 12px;
+            font-family: "system";
+            vertical-align: middle;
+        }
+
+        #minimize {
+            color: white;
+            font-size: 12px;
+            padding: 9px 15px 7px 15px;
+        }
+
+        #square {
+            color: white;
+            font-size: 22px;
+            padding: 0px 15px 5px 15px;
+        }
+
+        #exit {
+            color: white;
+            font-size: 15px;
+            padding: 7px 17px 7px 17px;
+        }
+
+        #url-bar {
+            height: 28px;
+            background-color: #1b1a1a;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: scroll;
+            text-overflow: ellipsis;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        #url-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        #ssl-padlock {
+            user-select: none;
+            padding-left: 8px;
+            margin-right: 8px;
+        }
+
+        #domain-name {
+            color: white;
+            font-size: 14px;
+            font-family: "system";
+        }
+
+        #domain-path {
+            color: #9c9898;
+            font-size: 14px;
+            font-family: "system";
+        }
+
+        #title-bar-width {
+            width: calc(100% + 2px);
+        }
+
+        #content {
+            width: 100%;
+            height: 700px;
+            border: 1px solid gray;
+        }
+
+        #window {
+            color: transparent;
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            height: 759px;
+            width: 40%;
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 9999;
+        }
+
+        #alertMessage, #realFeedback {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 10000;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        #reportBtn {
+            display: none;
+        }
+
+        #realFeedback .icon {
+            background-color: #E1F7D5;
+        }
+
+        #realFeedback .icon i {
+            color: #4CAF50;
+        }
+
+		#phishingFeedback {
+		    display: none;
+		    position: fixed;
+			inset-0;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0, 0, 0, 0.5); /* Add a dark background */
+		    align-items: center;
+		    justify-content: center;
+			z-index: 10001; /* Ensure it's on top of everything */
+		}
+
+
+        #phishingFeedback .modal-content {
+            background-color: white;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #phishingFeedback h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #phishingFeedback p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #phishingFeedback button {
+            padding: 10px 20px;
+            background-color: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #phishingFeedback button:hover {
+            background-color: #2980B9;
+        }
+
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <!-- Floating Report Button -->
+    <button id="reportBtn" class="fixed bottom-8 right-8 z-50 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full flex items-center shadow-lg transform transition-all duration-200 ease-in-out hover:scale-105">
+        <i class="fas fa-flag mr-2"></i> Report Suspicious Page
+    </button>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+
+        <!-- Card -->
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-8 text-center">
+                <h1 class="text-3xl font-semibold text-white mb-2">Phishing Awareness Test</h1>
+                <p class="text-blue-100">Learn to identify real vs. fake login pages</p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 md:p-10">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Instructions -->
+                    <div class="md:w-2/3">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">How This Works:</h2>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li>Click "Open Test Page" below</li>
+                            <li>A login page will open (could be real or fake)</li>
+                            <li>Examine it carefully</li>
+                            <li>Use the floating red button to report if you think it's phishing</li>
+                            <li>You'll get immediate feedback</li>
+                        </ol>
+                        
+                        <div class="mt-8">
+                            <button id="openTestBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg text-lg font-semibold transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Open Test Page
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips -->
+                    <div class="md:w-1/3 bg-blue-50 p-6 rounded-lg">
+                        <h3 class="font-bold text-blue-800 mb-3 flex items-center">
+                            <i class="fas fa-lightbulb mr-2 text-yellow-500"></i> Safety Tips
+                        </h3>
+                        <ul class="space-y-2 text-sm text-blue-900">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                <span>Check the URL carefully</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                <span>Look for HTTPS and padlock icon</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                <span>Watch for poor grammar/spelling</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                <span>Be wary of urgent requests</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+	<!-- Phishing Feedback Modal -->
+	<div id="phishingFeedback" class="flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 hidden z-50 backdrop-blur-lg">
+	    <div id="modalContent" class="p-6 rounded-lg max-w-md mx-4 modal-content backdrop-filter backdrop-blur-md">
+	        <h2 id="modalTitle" class="text-xl font-bold"></h2>
+	        <p id="feedbackMessage"></p>
+	        <p id="warningMessage" class="text-white"></p> <!-- Empty warning message initially -->
+	        <button id="closeFeedback" class="w-full bg-blue-600 text-white py-2 rounded-lg">Continue</button>
+	    </div>
+	</div>
+
+    <!-- Fake Window (Draggable) -->
+    <div id="window">
+        <div id="title-bar-width">
+            <div id="title-bar" class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940" width="40px" height="15px" id="logo">
+                    <span id="logo-description" class="ml-2">Netflix</span>
+                </div>
+                <div>
+                    <span id="minimize">&#8212;</span>
+                    <span id="square">□</span>
+                    <span id="exit">✕</span>
+                </div>
+            </div>
+            <div id="url-bar">
+                <!-- Need to put SSL icon below -->
+                <img src="https://images.ctfassets.net/y2ske730sjqp/5QQ9SVIdc1tmkqrtFnG9U1/de758bba0f65dcc1c6bc1f31f161003d/BrandAssets_Logos_02-NSymbol.jpg?w=940" width="20px" height="20px" id="netflix-logo" style="opacity: 0;">
+                <span id="domain-name">http://www.netfix.site</span>
+                <span id="domain-path">/login</span>
+            </div>
+        </div>
+
+        <iframe id="content" src="/test/fake_sites/fake_netflix/" frameBorder="0"></iframe>
+    </div>
+
+    <script>
+        // Set this flag to determine if the site is legit or not (false for phishing)
+        const legit = true;
+
+        // Make the window draggable
+        const draggable = document.getElementById('title-bar');
+        const windowElement = document.getElementById('window');
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        draggable.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - windowElement.offsetLeft;
+            offsetY = e.clientY - windowElement.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                windowElement.style.left = `${e.clientX - offsetX}px`;
+                windowElement.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Handle "Open Test Page" button click
+        $("#openTestBtn").click(function () {
+            $("#window").fadeIn(300);
+            $("#reportBtn").fadeIn(300);  // Show the report button
+        });
+    </script>
+
+    <script>
+        // Define the is_real flag for frontend
+        const isRealTest = false;  // Fake test, is_real is false
+
+        // Handle report (correct action)
+        document.getElementById('reportBtn').addEventListener('click', async () => {
+            const isCorrect = !isRealTest;  // Reporting phishing is correct for fake test
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",  // Django template variable
+                    is_correct: isCorrect,
+                    is_real: isRealTest  // Send the real/fake flag from frontend
+                })
+            });
+
+            const result = await response.json();
+
+            const points = result.points || 0;  // Default to 0 if points is undefined
+            alert(`You got it right! The URL was fake. However, such attacks can mimic real URLs using advanced BITM techniques.`);
+            alert(`You earned ${points} points!`);
+
+            // Redirect to the dashboard
+            window.location.href = '/dashboard';
+        });
+
+        // Handle "Next" button click (incorrect action)
+        document.getElementById('nextBtn').addEventListener('click', async (event) => {
+            event.preventDefault();  // Prevent the form from submitting normally
+
+            const isCorrect = false;  // Incorrect action (user clicked "Next" instead of reporting phishing)
+
+            const response = await fetch('/report/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: "{{ user_id }}",  // Django template variable
+                    is_correct: isCorrect,
+                    is_real: isRealTest  // Send the real/fake flag from frontend
+                })
+            });
+
+            const result = await response.json();
+
+            const points = result.points || 0;  // Default to 0 if points is undefined
+            alert(`You lost ${Math.abs(points)} points!`);
+
+            // Redirect to the dashboard
+            window.location.href = '/dashboard';
+        });
+    </script>  
+
+</body>
+</html>

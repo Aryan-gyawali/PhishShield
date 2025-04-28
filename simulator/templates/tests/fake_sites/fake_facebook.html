@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook - Log In or Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Report Phishing Button (Top-Right) -->
+        <!-- <div class="flex justify-end mb-4">
+            <button id="reportPhishing" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center">
+                <i class="fas fa-flag mr-2"></i> Report Phishing
+            </button>
+        </div> -->
+
+        <!-- Facebook Logo -->
+        <div class="flex justify-center mb-8">
+            <i class="fab fa-facebook text-blue-600 text-6xl"></i>
+        </div>
+
+        <!-- Login Form -->
+        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold text-center mb-6">Log in to Facebook</h1>
+            <form id="phishForm">
+                <div class="mb-4">
+                    <input type="text" placeholder="Email or phone number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="mb-4">
+                    <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">
+                    Log In
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <a href="#" class="text-blue-600 hover:underline">Forgotten password?</a>
+            </div>
+            <div class="mt-6 pt-4 border-t text-center">
+                <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold">
+                    Create New Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phishing Feedback Modal (Hidden by Default) -->
+    <div id="phishingFeedback" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg max-w-md mx-4">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-shield-alt text-yellow-500 mr-2"></i>Phishing Alert!</h2>
+            <p class="mb-4">You reported this page as suspicious. <span class="font-semibold">Good job!</span> This was a simulated phishing test.</p>
+            <p class="mb-4">⚠️ <u>Real phishing pages</u> often mimic login screens to steal passwords.</p>
+            <button id="closeFeedback" class="w-full bg-blue-600 text-white py-2 rounded-lg">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Report Phishing Button Logic
+        document.getElementById('reportPhishing').addEventListener('click', function() {
+            document.getElementById('phishingFeedback').classList.remove('hidden');
+        });
+
+        // Close Feedback Modal
+        document.getElementById('closeFeedback').addEventListener('click', function() {
+            document.getElementById('phishingFeedback').classList.add('hidden');
+        });
+
+        // Simulate Form Submission (No Backend)
+        document.getElementById('phishForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("This looks very real but its not. We made it tricker than ever. However, you can still check if the url is not suspicious!");
+        });
+    </script>
+</body>
+</html>
